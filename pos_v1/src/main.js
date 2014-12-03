@@ -5,7 +5,8 @@ function Table () {
 
 function printInventory(inputItems){
 
-	var boughtCount = getItemsCountTable(inputItems);
+	var boughtTable = getItemsCountTable(inputItems);
+	var freeTable = getFreeItemsTable(boughtCount);
 
 }
 
@@ -24,4 +25,34 @@ function getItemsCountTable(inputItems){
 	return allCounts;
 }
 
+function getFreeItemsTable(allCountsTable){
 
+	var freeCountTable = new Table();
+	for(barcode in allCountsTable){
+		var freeCount = getFreeCount(barcode,allCountsTable[barcode]);
+		if(freeCount > 0){
+			freeCountTable[barcode] = freeCount;
+		}
+	}
+	return freeCountTable;
+}
+
+function getFreeCount(barcode,count){
+
+	var promotions = loadPromotions();
+	for (var i = promotions.length - 1; i >= 0; i--) {
+		if(promotions[i].barcodes.indexOf(barcode) >= 0){
+			return typeToFreeCount(count,promotions[i].type);
+		}
+	};
+}
+
+function typeToFreeCount(count,type){
+
+	switch(type){
+		case 'BUY_TWO_GET_ONE_FREE':
+			return parseInt(count / 3);
+			break;
+	}
+	return -1;
+}

@@ -1,23 +1,27 @@
 //TODO: Please write code in this file.
-function printInventory(inputItems){
-
-	var boughtCount = getAllBoughtCount(inputItems);
+function Table () {
+	// body...
 }
 
-function getAllBoughtCount(inputItems){
-	
-	var allCounts = new Array();
+function printInventory(inputItems){
+
+	var boughtCount = getItemsCountTable(inputItems);
+
+}
+
+function getItemsCountTable(inputItems){
+
+	var allCounts = new Table();
 	for (var i = 0;i < inputItems.length; i++){
 		var barcode = inputItems[i].split('-')[0];
 		var count = inputItems[i].split('-')[1];
+		count = (count == null) ? 1 : count;
 		if(!allCounts[barcode]){
 			allCounts[barcode] = 0;
 		}
-		if(count){
-			allCounts[barcode] += parseInt(count);
-			continue;
-		}
-		allCounts[barcode] ++;
+		allCounts[barcode] += parseInt(count);
 	}
 	return allCounts;
 }
+
+

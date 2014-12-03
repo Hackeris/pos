@@ -7,19 +7,22 @@ var text = "";
 
 function printInventory(inputItems){
 
-	var boughtTable = getItemsCountTable(inputItems);
+	var boughtTable = getBoughtTable(inputItems);
 	var freeTable = getFreeItemsTable(boughtTable);
 
 	text += '***<没钱赚商店>购物清单***\n';
-	printBoughtTable(boughtTable);
-	text += '----------------------\n';
+	printBoughtTable(boughtTable,freeTable);
+	text += '----------------------\n'
+		+ '挥泪赠送商品：\n';
 	printFreeTable(freeTable);
 	text += '----------------------\n';
+	printTotal(boughtTable,freeTable);
+	text += '**********************';
 
 	console.log(text);
 }
 
-function getItemsCountTable(inputItems){
+function getBoughtTable(inputItems){
 
 	var allCounts = new Table();
 	for (var i = 0;i < inputItems.length; i++){
@@ -66,17 +69,21 @@ function typeToFreeCount(count,type){
 	return -1;
 }
 
-function printBoughtTable(boughtTable){
+function printBoughtTable(boughtTable,freeTable){
 	
 	var allItems = loadAllItems()
 	for(var i in allItems){
 		if(allItems[i].barcode in boughtTable){
 			var barcode = allItems[i].barcode;
 			var count = boughtTable[barcode];
+			var freeCount = 0;
+			if(freeTable[barcode]){
+				freeCount = parseInt(freeTable[barcode]);
+			}
 			text += '名称：' + allItems[i].name + '，' +
 				'数量：' + count + allItems[i].unit + '，' + 
 				'单价：' + allItems[i].price.toFixed(2) + '(元)，' +
-				'小计：' + (allItems[i].price * count).toFixed(2) + '(元)\n';
+				'小计：' + (allItems[i].price * (count - freeCount)).toFixed(2) + '(元)\n';
 		}
 	}
 }
@@ -92,4 +99,27 @@ function printFreeTable(freeTable){
 				'数量：' + count + allItems[i].unit + '\n';
 		}
 	}
+}
+
+function printTotal(boughtTable,freeTable){
+
+	var allItems = loadAllItems()
+	var totalCost = 0,savedCost = 0;
+	for(var i in allItems){
+		if(allItems[i].barcode in boughtTable){
+			var barcode = allItems[i].barcode;
+			var count = boughtTable[barcode];
+			if(freeTable[barcode]){
+				count -= parseInt(freeTable[barcode]);
+			}
+			totalCost += allItems[i].price * count;
+		}
+		if(allItems[i].barcode in freeTable){
+			var barcode = allItems[i].barcode;
+			var count = freeTable[barcode];
+			savedCost += allItems[i].price * count;
+		}
+	}
+	text += '总计：' + totalCost.toFixed(2) + '(元)\n' +
+			'节省：' + savedCost.toFixed(2) + '(元)\n';
 }

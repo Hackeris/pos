@@ -1,0 +1,6 @@
+[submodule "pos"]
+	path = pos
+	url = https://github.com/hackeris/pos.git
+[submodule "hackeris"]
+	path = hackeris
+	url = https://github.com/hackeris/pos.git

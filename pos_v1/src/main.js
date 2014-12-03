@@ -3,11 +3,20 @@ function Table () {
 	// body...
 }
 
+var text = "";
+
 function printInventory(inputItems){
 
 	var boughtTable = getItemsCountTable(inputItems);
-	var freeTable = getFreeItemsTable(boughtCount);
+	var freeTable = getFreeItemsTable(boughtTable);
 
+	text += '***<没钱赚商店>购物清单***\n';
+	printBoughtTable(boughtTable);
+	text += '----------------------\n';
+	printFreeTable(freeTable);
+	text += '----------------------\n';
+
+	console.log(text);
 }
 
 function getItemsCountTable(inputItems){
@@ -55,4 +64,32 @@ function typeToFreeCount(count,type){
 			break;
 	}
 	return -1;
+}
+
+function printBoughtTable(boughtTable){
+	
+	var allItems = loadAllItems()
+	for(var i in allItems){
+		if(allItems[i].barcode in boughtTable){
+			var barcode = allItems[i].barcode;
+			var count = boughtTable[barcode];
+			text += '名称：' + allItems[i].name + '，' +
+				'数量：' + count + allItems[i].unit + '，' + 
+				'单价：' + allItems[i].price.toFixed(2) + '(元)，' +
+				'小计：' + (allItems[i].price * count).toFixed(2) + '(元)\n';
+		}
+	}
+}
+
+function printFreeTable(freeTable){
+	
+	var allItems = loadAllItems()
+	for(var i in allItems){
+		if(allItems[i].barcode in freeTable){
+			var barcode = allItems[i].barcode;
+			var count = freeTable[barcode];
+			text += '名称：' + allItems[i].name + '，' +
+				'数量：' + count + allItems[i].unit + '\n';
+		}
+	}
 }

@@ -9,9 +9,17 @@ function build_paying_ticket(paying_list){
 }
 
 function build_gifts_receipt(gifts_list){
+
 	return _.reduce(gifts_list,function(str,it){
 		return str + "名称：" + it.name + "，数量：" + it.count + it.unit + "\n";
 	},"");
+}
+
+function build_total_label(paying_list){
+
+	return "总计：" + _.reduce(paying_list,function(mamo,it){
+		return mamo + parseFloat(it.costs);
+	},0.0).toFixed(2) + "(元)\n";
 }
 
 function printInventory(inputItems){
@@ -63,7 +71,7 @@ function printInventory(inputItems){
 		"挥泪赠送商品：\n"+
 		build_gifts_receipt(gifts_list) +
 		"----------------------\n"+
-		"总计：51.00(元)\n"+
+		build_total_label(paying_list)+
 		"节省：7.50(元)\n"+
 		"**********************";
 

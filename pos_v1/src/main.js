@@ -1,6 +1,6 @@
 //TODO: Please write code in this file.
 
-function build_paying_ticket(paying_list){
+function build_paying_receipt(paying_list){
 
 	return _.reduce(paying_list,function(str,it){
 			return str + "名称："+ it.name + "，数量："+it.count + it.unit + 
@@ -73,7 +73,7 @@ function printInventory(inputItems){
 	];
 
 	var text = "***<没钱赚商店>购物清单***\n"+
-		build_paying_ticket(paying_list)+
+		build_paying_receipt(paying_list)+
 		"----------------------\n"+
 		"挥泪赠送商品：\n"+
 		build_gifts_receipt(gifts_list) +

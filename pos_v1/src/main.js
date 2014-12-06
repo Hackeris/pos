@@ -22,6 +22,13 @@ function build_total_label(paying_list){
 	},0.0).toFixed(2) + "(元)\n";
 }
 
+function build_saved_label(gifts_list){
+
+	return "节省：" + _.reduce(gifts_list,function(mamo,it){
+		return mamo + parseFloat(it.costs);
+	},0).toFixed(2) + "(元)\n";
+}
+
 function printInventory(inputItems){
 
 	var paying_list = [
@@ -72,7 +79,7 @@ function printInventory(inputItems){
 		build_gifts_receipt(gifts_list) +
 		"----------------------\n"+
 		build_total_label(paying_list)+
-		"节省：7.50(元)\n"+
+		build_saved_label(gifts_list)+
 		"**********************";
 
 	console.log(text);

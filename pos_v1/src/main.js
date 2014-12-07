@@ -2,16 +2,16 @@
 
 function build_paying_receipt(paying_list){
 
-	return _.reduce(paying_list,function(str,it){
-			return str + "名称："+ it.name + "，数量："+it.count + it.unit + 
+	return _.reduce(paying_list,function(memo,it){
+			return memo + "名称："+ it.name + "，数量："+it.count + it.unit +
 			"，单价：" + it.price + "(元)，小计："+ it.costs +"(元)\n";
-		},"");
+	},"");
 }
 
 function build_gifts_receipt(gifts_list){
 
-	return _.reduce(gifts_list,function(str,it){
-		return str + "名称：" + it.name + "，数量：" + it.count + it.unit + "\n";
+	return _.reduce(gifts_list,function(memo,it){
+		return memo + "名称：" + it.name + "，数量：" + it.count + it.unit + "\n";
 	},"");
 }
 

@@ -29,6 +29,11 @@ function build_saved_label(gifts_list){
 	},0).toFixed(2) + "(元)\n";
 }
 
+function get_item_info_of_barcode(barcode){
+
+	return _.findWhere(loadAllItems(),{'barcode':barcode});
+}
+
 function get_paying_sumary(inputItems){
 
 	return [

@@ -29,49 +29,64 @@ function build_saved_label(gifts_list){
 	},0).toFixed(2) + "(元)\n";
 }
 
+function get_paying_sumary(inputItems){
+
+	return [
+		{
+			name : "雪碧",
+			price : "3.00",
+			count : 5,
+			costs : "12.00",
+			unit : "瓶"
+		},
+		{
+			name : "荔枝",
+			price : "15.00",
+			count : 2,
+			costs : "30.00",
+			unit : "斤"
+		},
+		{
+			name : "方便面",
+			price : "4.50",
+			count : 3,
+			costs : "9.00",
+			unit : "袋"
+		}
+	];
+}
+
+function get_gift_sumary(inputItems){
+
+	return [
+		{
+			name : "雪碧",
+			price : "3.00",
+			count : 1,
+			costs : "3.00",
+			unit : "瓶"
+		},
+		{
+			name : "方便面",
+			price : "4.50",
+			count : 1,
+			costs : "4.50",
+			unit : "袋"
+		}
+	];
+}
+
+function build_receipt(inputItems){
+
+	return {
+		paying_items : get_paying_sumary(inputItems),
+		gifts_list : get_gift_sumary(inputItems)
+	};
+}
+
 function printInventory(inputItems) {
 
-	var receipt = {
-		paying_items : [
-			{
-				name : "雪碧",
-				price : "3.00",
-				count : "5",
-				costs : "12.00",
-				unit : "瓶"
-			},
-			{
-				name : "荔枝",
-				price : "15.00",
-				count : "2",
-				costs : "30.00",
-				unit : "斤"
-			},
-			{
-				name : "方便面",
-				price : "4.50",
-				count : "3",
-				costs : "9.00",
-				unit : "袋"
-			}
-		],
-		gifts_list : [
-			{
-				name : "雪碧",
-				price : "3.00",
-				count : "1",
-				costs : "3.00",
-				unit : "瓶"
-			},
-			{
-				name : "方便面",
-				price : "4.50",
-				count : "1",
-				costs : "4.50",
-				unit : "袋"
-			}
-		]
-	};
+	var receipt = build_receipt(inputItems);
 
 	var text = "***<没钱赚商店>购物清单***\n"+
 		build_paying_receipt(receipt.paying_items)+

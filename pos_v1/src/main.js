@@ -34,31 +34,37 @@ function get_item_info_of_barcode(barcode){
 	return _.findWhere(loadAllItems(),{'barcode':barcode});
 }
 
-function get_paying_sumary(inputItems){
+function get_receipt_items(inputItems){
 
-	return [
-		{
-			name : "雪碧",
-			price : "3.00",
-			count : 5,
-			costs : "12.00",
-			unit : "瓶"
-		},
-		{
-			name : "荔枝",
-			price : "15.00",
-			count : 2,
-			costs : "30.00",
-			unit : "斤"
-		},
-		{
-			name : "方便面",
-			price : "4.50",
-			count : 3,
-			costs : "9.00",
-			unit : "袋"
+	return get_receipt_items(inputItems);
+}
+
+function get_paying_items(inputItems){
+
+	return _.chain(inputItems).groupBy(function(item){
+		return item;
+	}).map(function(value,key){
+		var item_barcode = key;
+		var item_count = value.length;
+		if(key.indexOf('-') != -1){
+			item_barcode = key.split('-')[0];
+			item_count = parseInt(key.split('-')[1]);
 		}
-	];
+		return {
+			barcode:item_barcode,
+			count:item_count
+		};
+	}).map(function(elem){
+
+		var item = get_item_info_of_barcode(elem.barcode);
+		return {
+			name: item.name,
+			price: item.price.toFixed(2),
+			count: elem.count,
+			costs: (elem.count * item.price).toFixed(2),
+			unit: item.unit
+		};
+	}).value();
 }
 
 function get_gift_sumary(inputItems){
@@ -84,7 +90,7 @@ function get_gift_sumary(inputItems){
 function build_receipt(inputItems){
 
 	return {
-		paying_items : get_paying_sumary(inputItems),
+		paying_items : get_receipt_items(inputItems),
 		gifts_list : get_gift_sumary(inputItems)
 	};
 }

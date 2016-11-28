@@ -5,7 +5,7 @@
 * product.json
 * carts.json
 
-其中，`products.json`中的内容为上品的信息，数据格式如下：
+其中，`products.json`中的内容为商品的信息，数据格式如下：
 
 ```
 [
